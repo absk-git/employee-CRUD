@@ -1,0 +1,70 @@
+<div class="flex justify-center text-2xl font-bold mt-4">Employee List</div>
+
+<div class="flex-grow m-4">
+    <div class="bg-white shadow-2xl rounded-2xl">
+        <div class="p-6">
+            <div class="flex justify-end">
+                <!-- button to add employee  -->
+                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 
+          font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 
+          dark:focus:ring-blue-800" (click)="openAddEmployeeDialog(employeeDetails)">
+                    Add Employee
+                </button>
+            </div>
+            <!-- ag grid angular table  -->
+            <ag-grid-angular style="width: 100%; height: 70vh" class="ag-theme-alpine" [columnDefs]="columnDefs"
+                [defaultColDef]="defaultColDef" [rowData]="rowData$" [rowSelection]="'multiple'" [animateRows]="true"
+                (gridReady)="onGridReady($event)" (cellClicked)="onCellClicked($event)"
+                (rowEditingStopped)="onRowEditingStopped($event)" (rowEditingStarted)="onRowEditingStarted($event)"
+                [editType]="editType"></ag-grid-angular>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- add data dialog (Modal) -->
+<ng-template #employeeDetails>
+    <div class="flex flex-col -m-6 overflow-y-auto">
+        <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 text-white bg-blue-700">
+            <h2 class="text-lg font-medium">Employee Details</h2>
+            <i class="material-icons text-white"><button (click)="dialog.closeAll()"
+                    class="font-bold py-2 px-1 rounded-sm text-2xl">close</button></i>
+        </div>
+        <div class="m-4 overflow-x-auto overflow-y-auto">
+            <div style="overflow-y: hidden" class="container-fluid">
+                <div class="card-body">
+                    <form class="p-4 bg-card shadow rounded-2xl overflow-hidden " [formGroup]="EmployeeForm">
+                        <div class="flex flex-wrap gap-4 my-6 gt-xs:flex-row">
+                            <mat-form-field class="flex-auto gt-xs:pl-3">
+                                <mat-label>Employee Name</mat-label>
+                                <input matInput [formControlName]="'name'" [placeholder]="'Employee Name'" required>
+                            </mat-form-field>
+                            <mat-form-field class="flex-auto gt-xs:pl-3">
+                                <mat-label>Salary</mat-label>
+                                <input matInput [formControlName]="'salary'" [placeholder]="'Salary'" required
+                                    type="number">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-wrap gap-4 my-6 gt-xs:flex-row">
+                            <mat-form-field class="flex-auto gt-xs:pr-3">
+                                <mat-label>Department</mat-label>
+                                <textarea matInput matTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="4"
+                                    [formControlName]="'department'" [placeholder]="'Department'"></textarea>
+
+                            </mat-form-field>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 
+                        font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 
+                        dark:focus:ring-blue-800" [disabled]="EmployeeForm.invalid"
+                                (click)="dataSubmit()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
